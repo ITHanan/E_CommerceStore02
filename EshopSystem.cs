@@ -40,7 +40,7 @@ namespace E_CommerceStore02
         }
 
 
-        public void AddToCart(MyDB myDB,int customerId, int productId, int quantity)
+        public void AddToCart(MyDB myDB, int customerId, int productId, int quantity)
         {
             try
             {
@@ -50,10 +50,7 @@ namespace E_CommerceStore02
                 Console.WriteLine("Available Products:");
 
                 // Display available products
-                foreach (var product in myDB.AllProductDatafromEHandelsButikDataJSON)
-                {
-                    Console.WriteLine($"ID: {product.Id} | Name: {product.Name} - {product.Description} | Price: {product.Price:C} | Stock: {product.Stock}");
-                }
+                DisplayProduct(myDB);
 
                 // Ask user for product ID
                 Console.Write("Enter the Product ID to add to the cart: ");
@@ -63,7 +60,7 @@ namespace E_CommerceStore02
                     return;
                 }
 
-                // Find product
+                // Find the slescted product
                 var selectedProduct = myDB.AllProductDatafromEHandelsButikDataJSON.FirstOrDefault(p => p.Id == productId);
                 if (selectedProduct == null)
                 {
@@ -80,7 +77,7 @@ namespace E_CommerceStore02
 
                 // Ask for quantity
                 Console.Write("Enter quantity to add to the cart: ");
-                if (!int.TryParse(Console.ReadLine(), result: out int stock) || quantity <= 0)
+                if (!int.TryParse(Console.ReadLine(), result: out int stock) || quantity <= 0) //stock insted of quantity
                 {
                     Console.WriteLine("Invalid quantity!");
                     return;
@@ -92,8 +89,40 @@ namespace E_CommerceStore02
                     return;
                 }
 
-                // Add to cart
-                myDB.AllProductDatafromEHandelsButikDataJSON.Add(selectedProduct);
+                //find or create the customer's cart 
+                var cart = myDB.AllCartDatafromEHandelsButikDataJSON.FirstOrDefault(cart => cart.Id == productId);
+
+                if (cart == null)
+                {
+                    cart = new Cart { Id = customerId, Products = new List<Product>() };
+                    myDB.AllCartDatafromEHandelsButikDataJSON.Add(cart);
+
+                }
+
+
+
+                // Add product to cart
+
+
+                var cartProduct = cart.Products.FirstOrDefault(p => p.Id == productId);
+
+
+                if (cartProduct == null)
+                {
+                    cartProduct = new Product
+                    {
+                        Id = selectedProduct.Id,
+                        Name = selectedProduct.Name,
+                        Description = selectedProduct.Description,
+                        Price = selectedProduct.Price,
+                        Stock = quantity // Treat stock as Quantity in the cast 
+
+                    };
+                    cart.Products.Add(cartProduct);
+                }
+
+
+                //   myDB.AllProductDatafromEHandelsButikDataJSON.Add(selectedProduct);
 
                 // Update stock
                 selectedProduct.Stock -= quantity;
@@ -108,6 +137,9 @@ namespace E_CommerceStore02
 
             SaveDataToJson(myDB);
         }
+
+
+
 
         public void ViewCart(MyDB myDB, int customerId)
         {
@@ -138,19 +170,19 @@ namespace E_CommerceStore02
 
                 foreach (var product in cart.Products)
                 {
-                    decimal itemTotal = product.Price * product.Stock; // to determine the amount of stock use 
+                    decimal itemTotal = product.Price * product.Stock; // Stock represents quantity in the cart
                     table.AddRow(
                         product.Id.ToString(),
                         product.Name,
                         product.Description,
-                        product.Stock.ToString(), // Quantity
+                        product.Stock.ToString(),
                         product.Price.ToString("C"),
                         itemTotal.ToString("C")
                     );
                     totalAmount += itemTotal;
                 }
 
-                // show the table containing the products in the basket 
+                // Display the table and total amount
                 AnsiConsole.Write(table);
                 AnsiConsole.MarkupLine($"[bold cyan]Total Amount: {totalAmount:C}[/]");
             }
@@ -159,6 +191,9 @@ namespace E_CommerceStore02
                 AnsiConsole.MarkupLine($"[bold red]An error occurred while viewing your cart: {ex.Message}[/]");
             }
         }
+
+
+
 
         public void ViewAllCustomers(MyDB myDB)
         {
@@ -200,7 +235,7 @@ namespace E_CommerceStore02
             }
         }
 
-        public void Checkout(MyDB myDB)
+        public void Checkout(MyDB myDB, int customerID)
         {
             try
             {
@@ -370,5 +405,3 @@ namespace E_CommerceStore02
     }
 
 }
-
-
