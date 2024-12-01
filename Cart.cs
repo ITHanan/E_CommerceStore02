@@ -18,9 +18,16 @@ namespace E_CommerceStore02
 
         public Cart(int id, Customer customer, List<Product> products)
         {
+            Id = id;
+            Products = products;
             Customer = customer;
             TotalAmount = 0;
         }
 
     }
 }
+
+
+
+
+
