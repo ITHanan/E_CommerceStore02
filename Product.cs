@@ -1,7 +1,10 @@
 ﻿
 
+using Spectre.Console;
+
 namespace E_CommerceStore02
 {
+    
     public class Product : IIdentifiable
     {
         public int Id { get; set; }
@@ -19,14 +22,7 @@ namespace E_CommerceStore02
             Stock = stock;
         }
 
-        public void DisplayProduct()
-        {
-            Console.WriteLine($"[ID: {Id}] {Name}");
-            Console.WriteLine($"Description: {Description}");
-            Console.WriteLine($"Price: {Price:C}");
-            Console.WriteLine($"Stock: {Stock} available");
-            Console.WriteLine("--------------------------------------------");
-        }
+       
 
         public bool UpdateStock(int quantity)
         {

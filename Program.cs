@@ -5,26 +5,19 @@ using E_CommerceStore02;
 
 class Program
 {
+    private static Customer customer;
     static void Main(string[] args)
     {
+        EshopSystem eShopSystem = new EshopSystem();
+
         string dataJsonFilePath = "EShoppingStore.json";
+        string allDataAsJson = File.ReadAllText(dataJsonFilePath);
+        MyDB myDB = JsonSerializer.Deserialize<MyDB>(allDataAsJson)!;
 
         // Display the welcome banner using Figgle
         AnsiConsole.Write(new FigletText("E-Shopping Store").Color(Color.Green));
 
-        // Load data from JSON file
-        MyDB myDB;
-        if (File.Exists(dataJsonFilePath))
-        {
-            string allDataAsJson = File.ReadAllText(dataJsonFilePath);
-            myDB = JsonSerializer.Deserialize<MyDB>(allDataAsJson)!;
-            AnsiConsole.MarkupLine("[bold green]Data loaded successfully from JSON file![/]");
-        }
-        else
-        {
-            AnsiConsole.MarkupLine("[bold red]JSON file not found. Exiting application.[/]");
-            return;
-        }
+
 
         // Application Menu
         bool running = true;
@@ -48,11 +41,12 @@ class Program
             {
                 case "1":
                     // Display all products
+
+                    
                     AnsiConsole.MarkupLine("\n[bold green]=== Available Products ===[/]");
-                    foreach (var product in myDB.AllProductDatafromEHandelsButikDataJSON)
-                    {
-                        AnsiConsole.MarkupLine($"[cyan]ID: {product.Id} | Name: {product.Name} | Price: {product.Price:C} | Stock: {product.Stock}[/]");
-                    }
+
+                    eShopSystem.DisplayProduct(myDB);
+
                     break;
 
                 case "2":
@@ -60,26 +54,26 @@ class Program
                     var cart = myDB.AllCartDatafromEHandelsButikDataJSON.FirstOrDefault(); // Replace with customer retrieval logic
                     if (cart == null)
                     {
+
                         cart = new Cart(myDB.AllCartDatafromEHandelsButikDataJSON.Count + 1, customer, new List<Product>());
                         myDB.AllCartDatafromEHandelsButikDataJSON.Add(cart);
                     }
-                    cart.AddToCart(myDB);
+                    eShopSystem.AddToCart(myDB,1,1,2);// start to fix from here 
                     break;
 
                 case "3":
                     // View cart
                     AnsiConsole.MarkupLine("\n[bold green]=== Your Cart ===[/]");
-                    foreach (var cartItem in myDB.AllCartDatafromEHandelsButikDataJSON.FirstOrDefault()?.CartItem ?? new List<Product>())
-                    {
-                        var product = myDB.AllProductDatafromEHandelsButikDataJSON.First(p => p.Id == cartItem.Id);
-                        AnsiConsole.MarkupLine($"[yellow]- {product.Name}[/], [cyan]Quantity: {cartItem.Stock}[/], [green]Price: {product.Price:C}[/]");
-                    }
+
+                    Console.WriteLine("Enter customer ID:");
+                    int calendarId = Convert.ToInt32(Console.ReadLine());
+                    eShopSystem.ViewCart(myDB, calendarId);
                     break;
 
                 case "4":
                     // Checkout
-                    var order = new Order(0, null, null, 0, DateTime.Now); // Replace nulls with customer and cart data
-                    order.Checkout(myDB);
+                    // var order = new Order(0, null, null, 0, DateTime.Now); // Replace nulls with customer and cart data
+                    eShopSystem.Checkout(myDB);
                     break;
 
                 case "5":
@@ -96,22 +90,8 @@ class Program
             }
 
             // Save data back to JSON file after each operation
-            SaveDataToJson(myDB, dataJsonFilePath);
         }
     }
 
-    static void SaveDataToJson(MyDB myDB, string dataJsonFilePath)
-    {
-        try
-        {
-            string jsonData = JsonSerializer.Serialize(myDB, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(dataJsonFilePath, jsonData);
-            AnsiConsole.MarkupLine("[bold green]Data saved successfully to JSON file.[/]");
-        }
-        catch (Exception ex)
-        {
-            AnsiConsole.MarkupLine($"[bold red]An error occurred while saving data: {ex.Message}[/]");
-        }
-    }
 }
 

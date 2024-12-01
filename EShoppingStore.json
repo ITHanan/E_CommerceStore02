@@ -1,89 +1,92 @@
-﻿{
+{
   "products": [
     {
-      "id": 1,
-      "name": "Laptop",
-      "description": "High-performance laptop",
-      "price": 1200.50,
-      "stock": 10
+      "Id": 1,
+      "Name": "Laptop",
+      "Description": "High-performance laptop",
+      "Price": 1200.50,
+      "Stock": 10
     },
     {
-      "id": 2,
-      "name": "Smartphone",
-      "description": "Latest model smartphone",
-      "price": 800.00,
-      "stock": 25
+      "Id": 2,
+      "Name": "Smartphone",
+      "Description": "Latest model smartphone",
+      "Price": 800.00,
+      "Stock": 25
     },
     {
-      "id": 3,
-      "name": "Headphones",
-      "description": "Noise-cancelling headphones",
-      "price": 150.00,
-      "stock": 50
+      "Id": 3,
+      "Name": "Headphones",
+      "Description": "Noise-cancelling headphones",
+      "Price": 150.00,
+      "Stock": 50
     }
   ],
+
   "customers": [
     {
-      "customerId": 1,
-      "name": "John Doe",
-      "email": "john.doe@example.com",
-      "address": "123 Elm Street",
-      "orderHistory": [
+      "CustomerId": 1,
+      "Name": "John Doe",
+      "Email": "john.doe@example.com",
+      "Password": "12345",
+      "Address": "123 Elm Street",
+      "OrderHistory": [
         {
-          "orderId": 101,
-          "orderDate": "2024-11-20T10:30:00",
-          "orderItems": [
+          "OrderId": 101,
+          "OrderDate": "2024-11-20T10:30:00",
+          "OrderItems": [
             {
-              "productId": 1,
-              "quantity": 1
+              "ProductId": 1,
+              "Quantity": 1
             },
             {
-              "productId": 3,
-              "quantity": 2
+              "ProductId": 3,
+              "Quantity": 2
             }
           ],
-          "totalAmount": 1500.50,
-          "status": "Completed"
+          "TotalAmount": 1500.50,
+          "Status": "Completed"
         }
       ]
     },
     {
-      "customerId": 2,
-      "name": "Jane Smith",
-      "email": "jane.smith@example.com",
-      "address": "456 Oak Avenue",
-      "orderHistory": []
+      "CustomerId": 2,
+      "Name": "Jane Smith",
+      "Email": "jane.smith@example.com",
+      "Password": "12345",
+      "Address": "456 Oak Avenue",
+      "OrderHistory": []
     }
   ],
-  "Carts": [
+  "carts": [
     {
-      "customerId": 2,
-      "cartItems": [
+      "CustomerId": 2,
+      "CartItems": [
         {
-          "productId": 2,
-          "quantity": 1
+          "ProductId": 2,
+          "Quantity": 1
         }
       ],
-      "totalAmount": 800.00
+      "TotalAmount": 800.00
     }
   ],
   "orders": [
     {
-      "orderId": 101,
-      "customerId": 1,
-      "orderDate": "2024-11-20T10:30:00",
-      "orderItems": [
+      "OrderId": 101,
+      "CustomerId": 1,
+      "OrderDate": "2024-11-20T10:30:00",
+      "OrderItems": [
         {
-          "productId": 1,
-          "quantity": 1
+          "ProductId": 1,
+          "Quantity": 1
         },
         {
-          "productId": 3,
-          "quantity": 2
+          "ProductId": 3,
+          "Quantity": 2
         }
       ],
-      "totalAmount": 1500.50,
-      "status": "Completed"
+      "TotalAmount": 1500.50,
+      "Status": "Completed"
     }
   ]
 }

@@ -1,16 +1,31 @@
 ﻿
 
 using Spectre.Console;
+using System.Text.Json.Serialization;
 
 namespace E_CommerceStore02
 {
     public class Order : IIdentifiable
     {
+
+        [JsonPropertyName("OrderId")]
         public int Id { get; set; }
+
+        [JsonPropertyName("CustomerId")]
+        public int CustomerId { get; set; }
         public Customer Customer { get; set; }
+
+        [JsonPropertyName("OrderItems")]
         public List<Product> OrderItems { get; set; }
+
+        [JsonPropertyName("TotalAmount")]
         public decimal TotalAmount { get; set; }
+
+        [JsonPropertyName("OrderDate")]
         public DateTime OrderDate { get; set; }
+
+        [JsonPropertyName("Status")]
+        public string Status { get; set; } = "Pending";
 
         public Order(int id, Customer customer, List<Product> orderItems, decimal totalAmount, DateTime orderDate)
         {
@@ -81,13 +96,13 @@ namespace E_CommerceStore02
         }
 
 
-        public void Checkout(MyDB myDB, int customerId)
+        public void Checkout(MyDB myDB)
         {
             try
             {
                 // Find the customer
                 var customer = myDB.AllCustomerDatafromEHandelsButikDataJSON
-                                   .FirstOrDefault(c => c.Id == customerId);
+                                   .FirstOrDefault(c => c.Id == Id);
 
                 if (customer == null)
                 {
@@ -97,7 +112,7 @@ namespace E_CommerceStore02
 
                 // Retrieve the customer's cart
                 var cart = myDB.AllCartDatafromEHandelsButikDataJSON
-                               .FirstOrDefault(c => c.Customer.Id == customerId);
+                               .FirstOrDefault(c => c.Id == Id);
 
                 if (cart == null || !myDB.AllCartDatafromEHandelsButikDataJSON.Any())
                 {
@@ -110,7 +125,7 @@ namespace E_CommerceStore02
 
                 // Display order summary
                 AnsiConsole.MarkupLine("[bold green]=== Order Summary ===[/]");
-                foreach (var product in cart.Products)
+                foreach (var product in myDB.AllProductDatafromEHandelsButikDataJSON)
                 {
                     AnsiConsole.MarkupLine($"- [cyan]{product.Name}[/] | Quantity: [yellow]{product.Stock}[/] | Total: [green]{product.Price * product.Stock:C}[/]");
                 }
