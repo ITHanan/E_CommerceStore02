@@ -94,7 +94,8 @@ namespace E_CommerceStore02
 
                 if (cart == null)
                 {
-                    cart = new Cart { Id = customerId, Products = new List<Product>() };
+                    Customer customer = myDB.AllCustomerDatafromEHandelsButikDataJSON.Where(c => c.Id == customerId).First();
+                    cart = new Cart(customerId, customer, new List<Product>());
                     myDB.AllCartDatafromEHandelsButikDataJSON.Add(cart);
 
                 }
@@ -110,14 +111,14 @@ namespace E_CommerceStore02
                 if (cartProduct == null)
                 {
                     cartProduct = new Product
-                    {
-                        Id = selectedProduct.Id,
-                        Name = selectedProduct.Name,
-                        Description = selectedProduct.Description,
-                        Price = selectedProduct.Price,
-                        Stock = quantity // Treat stock as Quantity in the cast 
+                    (
+                        selectedProduct.Id,
+                        selectedProduct.Name,
+                         selectedProduct.Description,
+                        selectedProduct.Price,
+                         quantity  // Treat stock as Quantity in the cast 
 
-                    };
+                    );
                     cart.Products.Add(cartProduct);
                 }
 
