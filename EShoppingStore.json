@@ -5,7 +5,7 @@
       "Name": "Laptop",
       "Description": "High-performance laptop",
       "Price": 1200.50,
-      "Stock": 10
+      "Stock": 4
     },
     {
       "Id": 2,
@@ -22,7 +22,6 @@
       "Stock": 50
     }
   ],
-
   "customers": [
     {
       "CustomerId": 1,
@@ -30,24 +29,9 @@
       "Email": "john.doe@example.com",
       "Password": "12345",
       "Address": "123 Elm Street",
-      "OrderHistory": [
-        {
-          "OrderId": 101,
-          "OrderDate": "2024-11-20T10:30:00",
-          "OrderItems": [
-            {
-              "ProductId": 1,
-              "Quantity": 1
-            },
-            {
-              "ProductId": 3,
-              "Quantity": 2
-            }
-          ],
-          "TotalAmount": 1500.50,
-          "Status": "Completed"
-        }
-      ]
+      "OrderHistory": [],
+      "products": null,
+      "product": null
     },
     {
       "CustomerId": 2,
@@ -55,38 +39,66 @@
       "Email": "jane.smith@example.com",
       "Password": "12345",
       "Address": "456 Oak Avenue",
-      "OrderHistory": []
-    }
-  ],
-  "carts": [
-    {
-      "CustomerId": 2,
-      "CartItems": [
-        {
-          "ProductId": 2,
-          "Quantity": 1
-        }
-      ],
-      "TotalAmount": 800.00
+      "OrderHistory": [],
+      "products": null,
+      "product": null
     }
   ],
   "orders": [
     {
       "OrderId": 101,
       "CustomerId": 1,
-      "OrderDate": "2024-11-20T10:30:00",
+      "Customer": null,
       "OrderItems": [
         {
-          "ProductId": 1,
-          "Quantity": 1
+          "Id": 0,
+          "Name": null,
+          "Description": null,
+          "Price": 0,
+          "Stock": 0
         },
         {
-          "ProductId": 3,
-          "Quantity": 2
+          "Id": 0,
+          "Name": null,
+          "Description": null,
+          "Price": 0,
+          "Stock": 0
         }
       ],
       "TotalAmount": 1500.50,
+      "OrderDate": "2024-11-20T10:30:00",
       "Status": "Completed"
+    }
+  ],
+  "carts": [
+    {
+      "CustomerId": 2,
+      "Products": null,
+      "Customer": null,
+      "TotalAmount": 800.00
+    },
+    {
+      "CustomerId": 1,
+      "Products": [
+        {
+          "Id": 1,
+          "Name": "Laptop",
+          "Description": "High-performance laptop",
+          "Price": 1200.50,
+          "Stock": 2
+        }
+      ],
+      "Customer": {
+        "CustomerId": 1,
+        "Name": "John Doe",
+        "Email": "john.doe@example.com",
+        "Password": "12345",
+        "Address": "123 Elm Street",
+        "OrderHistory": [],
+        "products": null,
+        "product": null
+      },
+      "TotalAmount": 0
     }
   ]
 }

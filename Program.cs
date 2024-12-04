@@ -66,14 +66,16 @@ class Program
                     AnsiConsole.MarkupLine("\n[bold green]=== Your Cart ===[/]");
 
                     Console.WriteLine("Enter customer ID:");
-                    int calendarId = Convert.ToInt32(Console.ReadLine());
-                    eShopSystem.ViewCart(myDB, calendarId);
+                    int customerId = Convert.ToInt32(Console.ReadLine());
+                    eShopSystem.ViewCart(myDB, customerId);
                     break;
 
                 case "4":
                     // Checkout
                     // var order = new Order(0, null, null, 0, DateTime.Now); // Replace nulls with customer and cart data
-                    eShopSystem.Checkout(myDB);
+                    Console.WriteLine("Enter customer ID: ");
+                    customerId = Convert.ToInt32(Console.ReadLine());
+                    eShopSystem.Checkout(myDB, customerId);
                     break;
 
                 case "5":
